@@ -35,4 +35,8 @@ router.get('/:uid', function(req, res) {
   )
 });
 
+router.post('/', function(req, res){
+  return req;
+})
+
 module.exports = router;
