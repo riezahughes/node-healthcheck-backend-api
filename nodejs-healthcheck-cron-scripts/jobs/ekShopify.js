@@ -1,1 +1,2 @@
-modules.export(ekShopify);
+let ekShopify = true;
+module.export = ekShopify;

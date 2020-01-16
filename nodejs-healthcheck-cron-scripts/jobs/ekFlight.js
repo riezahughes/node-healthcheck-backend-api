@@ -1,1 +1,2 @@
-modules.export(ekFlight);
+let ekFlight = true;
+module.export = ekFlight;
