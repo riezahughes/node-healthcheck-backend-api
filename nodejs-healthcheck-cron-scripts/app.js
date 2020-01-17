@@ -10,11 +10,13 @@ const ccpCustomers = require('./jobs/ccpCustomers');
 const ekFlight = require('./jobs/ekFlight');
 const ekShopify = require('./jobs/ekShopify');
 
-cron.schedule('*/5 * * * * *', async () => {
+console.log("started"); 
+
+cron.schedule('*/2 * * * *', async () => {
 
     console.log("Checking API Endpoints");
 
-    //check the orders api. uses the shipping endpoint to make sure it's okay.
+    //check the orders api. uses the shipping endpoint to make sure it's okay. (getShipping);
 
     let checkOrders = await ccpOrders();
     if(checkOrders === false){
@@ -26,7 +28,7 @@ cron.schedule('*/5 * * * * *', async () => {
         console.log("Orders being wierd.");
     }
 
-    //check the products api. uses a specific barcode to make sure it's fine.
+    //check the products api. uses a specific barcode to make sure it's fine (getProductByBarcode).
 
     let checkProducts = await ccpProducts();
     if(checkProducts === false){
@@ -38,6 +40,8 @@ cron.schedule('*/5 * * * * *', async () => {
         console.log("Products Being Wierd");
     }    
 
+    //check the customer api. uses a specific customer to make sure it's fine.(getCustomerByID)
+
     let checkCustomers = await ccpCustomers();
     if(checkCustomers === false){
         //mark the error for this in the database
@@ -46,8 +50,10 @@ cron.schedule('*/5 * * * * *', async () => {
         console.log("Customers OK");
     }else{
         console.log("Customers Being Wierd");
-    }        
+    }
+
+    
 })
 
 console.log("Cron job application has booted. All checks should appear below:");
-app.listen(4130);
+app.listen(4110);
