@@ -1,0 +1,13 @@
+type Endpoint {
+  id: ID! @id
+  name: String!
+  last_checked: DateTime!
+  errors: [Error!]!
+}
+
+type Error {
+  id: ID! @id
+  endpoint: Endpoint!
+  time_of_error: DateTime! @createdAt
+  notes: String
+}
