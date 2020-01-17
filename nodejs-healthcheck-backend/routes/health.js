@@ -36,7 +36,11 @@ router.get('/:uid', function(req, res) {
 });
 
 router.post('/', function(req, res){
-  return req;
+
+});
+
+router.post('/:uid/error', function(req, res){
+  console.log("error found: "+req.endpoint);
 })
 
 module.exports = router;
