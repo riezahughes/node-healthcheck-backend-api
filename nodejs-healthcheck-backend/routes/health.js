@@ -67,19 +67,27 @@ router.post('/', async function(req, res){
 
 });
 
+router.get('/:id/error', async function(req, res){
+  const { id } = req.params;
+  const getError = await prisma.endpoint({
+    where: { id }
+  }).error();
+
+  res.json(getError);
+});
+
 router.post('/:id/error', async function(req, res){
 
   let request = req.body;
   console.log(request);
 
   const error_result = await prisma.createError({
-    data: {
-      endpoint: request.endpoint,
+      endpoint: { connect: { id: request.endpoint } },
       notes: request.notes,
-    }
   });
 
   res.json(error_result);
+
 })
 
 module.exports = router;
