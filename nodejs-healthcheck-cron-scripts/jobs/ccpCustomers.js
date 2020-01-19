@@ -31,7 +31,8 @@ module.exports = async function(){
         //console.log(response);
 
         if(response.data.includes("<ErrorLevel>0</ErrorLevel>") && response.data.includes("<Success>true</Success>")){
-            return true;
+            return false;
+
         }else{
             return false;
         }

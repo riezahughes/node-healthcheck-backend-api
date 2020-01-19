@@ -262,9 +262,9 @@ export interface EndpointWhereInput {
   last_checked_lte?: Maybe<DateTimeInput>;
   last_checked_gt?: Maybe<DateTimeInput>;
   last_checked_gte?: Maybe<DateTimeInput>;
-  error_log_every?: Maybe<ErrorWhereInput>;
-  error_log_some?: Maybe<ErrorWhereInput>;
-  error_log_none?: Maybe<ErrorWhereInput>;
+  errors_every?: Maybe<ErrorWhereInput>;
+  errors_some?: Maybe<ErrorWhereInput>;
+  errors_none?: Maybe<ErrorWhereInput>;
   AND?: Maybe<EndpointWhereInput[] | EndpointWhereInput>;
   OR?: Maybe<EndpointWhereInput[] | EndpointWhereInput>;
   NOT?: Maybe<EndpointWhereInput[] | EndpointWhereInput>;
@@ -280,7 +280,7 @@ export interface EndpointCreateInput {
   is_working?: Maybe<Boolean>;
   file_name: String;
   last_checked?: Maybe<DateTimeInput>;
-  error_log?: Maybe<ErrorCreateManyWithoutEndpointInput>;
+  errors?: Maybe<ErrorCreateManyWithoutEndpointInput>;
 }
 
 export interface ErrorCreateManyWithoutEndpointInput {
@@ -300,7 +300,7 @@ export interface EndpointUpdateInput {
   is_working?: Maybe<Boolean>;
   file_name?: Maybe<String>;
   last_checked?: Maybe<DateTimeInput>;
-  error_log?: Maybe<ErrorUpdateManyWithoutEndpointInput>;
+  errors?: Maybe<ErrorUpdateManyWithoutEndpointInput>;
 }
 
 export interface ErrorUpdateManyWithoutEndpointInput {
@@ -400,16 +400,16 @@ export interface EndpointUpdateManyMutationInput {
 
 export interface ErrorCreateInput {
   id?: Maybe<ID_Input>;
-  endpoint: EndpointCreateOneWithoutError_logInput;
+  endpoint: EndpointCreateOneWithoutErrorsInput;
   notes?: Maybe<String>;
 }
 
-export interface EndpointCreateOneWithoutError_logInput {
-  create?: Maybe<EndpointCreateWithoutError_logInput>;
+export interface EndpointCreateOneWithoutErrorsInput {
+  create?: Maybe<EndpointCreateWithoutErrorsInput>;
   connect?: Maybe<EndpointWhereUniqueInput>;
 }
 
-export interface EndpointCreateWithoutError_logInput {
+export interface EndpointCreateWithoutErrorsInput {
   id?: Maybe<ID_Input>;
   name: String;
   is_working?: Maybe<Boolean>;
@@ -418,27 +418,27 @@ export interface EndpointCreateWithoutError_logInput {
 }
 
 export interface ErrorUpdateInput {
-  endpoint?: Maybe<EndpointUpdateOneRequiredWithoutError_logInput>;
+  endpoint?: Maybe<EndpointUpdateOneRequiredWithoutErrorsInput>;
   notes?: Maybe<String>;
 }
 
-export interface EndpointUpdateOneRequiredWithoutError_logInput {
-  create?: Maybe<EndpointCreateWithoutError_logInput>;
-  update?: Maybe<EndpointUpdateWithoutError_logDataInput>;
-  upsert?: Maybe<EndpointUpsertWithoutError_logInput>;
+export interface EndpointUpdateOneRequiredWithoutErrorsInput {
+  create?: Maybe<EndpointCreateWithoutErrorsInput>;
+  update?: Maybe<EndpointUpdateWithoutErrorsDataInput>;
+  upsert?: Maybe<EndpointUpsertWithoutErrorsInput>;
   connect?: Maybe<EndpointWhereUniqueInput>;
 }
 
-export interface EndpointUpdateWithoutError_logDataInput {
+export interface EndpointUpdateWithoutErrorsDataInput {
   name?: Maybe<String>;
   is_working?: Maybe<Boolean>;
   file_name?: Maybe<String>;
   last_checked?: Maybe<DateTimeInput>;
 }
 
-export interface EndpointUpsertWithoutError_logInput {
-  update: EndpointUpdateWithoutError_logDataInput;
-  create: EndpointCreateWithoutError_logInput;
+export interface EndpointUpsertWithoutErrorsInput {
+  update: EndpointUpdateWithoutErrorsDataInput;
+  create: EndpointCreateWithoutErrorsInput;
 }
 
 export interface ErrorUpdateManyMutationInput {
@@ -489,7 +489,7 @@ export interface EndpointPromise extends Promise<Endpoint>, Fragmentable {
   is_working: () => Promise<Boolean>;
   file_name: () => Promise<String>;
   last_checked: () => Promise<DateTimeOutput>;
-  error_log: <T = FragmentableArray<Error>>(args?: {
+  errors: <T = FragmentableArray<Error>>(args?: {
     where?: ErrorWhereInput;
     orderBy?: ErrorOrderByInput;
     skip?: Int;
@@ -508,7 +508,7 @@ export interface EndpointSubscription
   is_working: () => Promise<AsyncIterator<Boolean>>;
   file_name: () => Promise<AsyncIterator<String>>;
   last_checked: () => Promise<AsyncIterator<DateTimeOutput>>;
-  error_log: <T = Promise<AsyncIterator<ErrorSubscription>>>(args?: {
+  errors: <T = Promise<AsyncIterator<ErrorSubscription>>>(args?: {
     where?: ErrorWhereInput;
     orderBy?: ErrorOrderByInput;
     skip?: Int;
@@ -527,7 +527,7 @@ export interface EndpointNullablePromise
   is_working: () => Promise<Boolean>;
   file_name: () => Promise<String>;
   last_checked: () => Promise<DateTimeOutput>;
-  error_log: <T = FragmentableArray<Error>>(args?: {
+  errors: <T = FragmentableArray<Error>>(args?: {
     where?: ErrorWhereInput;
     orderBy?: ErrorOrderByInput;
     skip?: Int;

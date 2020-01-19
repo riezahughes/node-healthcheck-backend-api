@@ -23,7 +23,7 @@ type Endpoint {
   is_working: Boolean
   file_name: String!
   last_checked: DateTime
-  error_log(where: ErrorWhereInput, orderBy: ErrorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Error!]
+  errors(where: ErrorWhereInput, orderBy: ErrorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Error!]
 }
 
 type EndpointConnection {
@@ -38,15 +38,15 @@ input EndpointCreateInput {
   is_working: Boolean
   file_name: String!
   last_checked: DateTime
-  error_log: ErrorCreateManyWithoutEndpointInput
+  errors: ErrorCreateManyWithoutEndpointInput
 }
 
-input EndpointCreateOneWithoutError_logInput {
-  create: EndpointCreateWithoutError_logInput
+input EndpointCreateOneWithoutErrorsInput {
+  create: EndpointCreateWithoutErrorsInput
   connect: EndpointWhereUniqueInput
 }
 
-input EndpointCreateWithoutError_logInput {
+input EndpointCreateWithoutErrorsInput {
   id: ID
   name: String!
   is_working: Boolean
@@ -103,7 +103,7 @@ input EndpointUpdateInput {
   is_working: Boolean
   file_name: String
   last_checked: DateTime
-  error_log: ErrorUpdateManyWithoutEndpointInput
+  errors: ErrorUpdateManyWithoutEndpointInput
 }
 
 input EndpointUpdateManyMutationInput {
@@ -113,23 +113,23 @@ input EndpointUpdateManyMutationInput {
   last_checked: DateTime
 }
 
-input EndpointUpdateOneRequiredWithoutError_logInput {
-  create: EndpointCreateWithoutError_logInput
-  update: EndpointUpdateWithoutError_logDataInput
-  upsert: EndpointUpsertWithoutError_logInput
+input EndpointUpdateOneRequiredWithoutErrorsInput {
+  create: EndpointCreateWithoutErrorsInput
+  update: EndpointUpdateWithoutErrorsDataInput
+  upsert: EndpointUpsertWithoutErrorsInput
   connect: EndpointWhereUniqueInput
 }
 
-input EndpointUpdateWithoutError_logDataInput {
+input EndpointUpdateWithoutErrorsDataInput {
   name: String
   is_working: Boolean
   file_name: String
   last_checked: DateTime
 }
 
-input EndpointUpsertWithoutError_logInput {
-  update: EndpointUpdateWithoutError_logDataInput!
-  create: EndpointCreateWithoutError_logInput!
+input EndpointUpsertWithoutErrorsInput {
+  update: EndpointUpdateWithoutErrorsDataInput!
+  create: EndpointCreateWithoutErrorsInput!
 }
 
 input EndpointWhereInput {
@@ -185,9 +185,9 @@ input EndpointWhereInput {
   last_checked_lte: DateTime
   last_checked_gt: DateTime
   last_checked_gte: DateTime
-  error_log_every: ErrorWhereInput
-  error_log_some: ErrorWhereInput
-  error_log_none: ErrorWhereInput
+  errors_every: ErrorWhereInput
+  errors_some: ErrorWhereInput
+  errors_none: ErrorWhereInput
   AND: [EndpointWhereInput!]
   OR: [EndpointWhereInput!]
   NOT: [EndpointWhereInput!]
@@ -212,7 +212,7 @@ type ErrorConnection {
 
 input ErrorCreateInput {
   id: ID
-  endpoint: EndpointCreateOneWithoutError_logInput!
+  endpoint: EndpointCreateOneWithoutErrorsInput!
   notes: String
 }
 
@@ -307,7 +307,7 @@ input ErrorSubscriptionWhereInput {
 }
 
 input ErrorUpdateInput {
-  endpoint: EndpointUpdateOneRequiredWithoutError_logInput
+  endpoint: EndpointUpdateOneRequiredWithoutErrorsInput
   notes: String
 }
 

@@ -70,12 +70,8 @@ router.post('/', async function(req, res){
 router.get('/:id/errors', async function(req, res){
   const { id } = req.params;
 
-  // const errorsOnEndpoint = await prisma
-  // .endpoint( { id } )
-  // .errors();
-
   const errorsOnEndpoint = await prisma
-  .endpoint( { id: "ck5lb3kgq000j0709oktik48o" } )
+  .endpoint( { id } )
   .errors();
 
   res.json(errorsOnEndpoint);
