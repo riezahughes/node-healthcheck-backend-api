@@ -1,8 +1,10 @@
 type Endpoint {
   id: ID! @id
   name: String!
-  last_checked: DateTime!
-  errors: [Error!]!
+  is_working: Boolean
+  file_name: String!
+  last_checked: DateTime
+  error_log: [Error!]
 }
 
 type Error {

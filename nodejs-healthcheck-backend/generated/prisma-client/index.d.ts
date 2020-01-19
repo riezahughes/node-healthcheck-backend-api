@@ -153,6 +153,10 @@ export type EndpointOrderByInput =
   | "id_DESC"
   | "name_ASC"
   | "name_DESC"
+  | "is_working_ASC"
+  | "is_working_DESC"
+  | "file_name_ASC"
+  | "file_name_DESC"
   | "last_checked_ASC"
   | "last_checked_DESC";
 
@@ -234,6 +238,22 @@ export interface EndpointWhereInput {
   name_not_starts_with?: Maybe<String>;
   name_ends_with?: Maybe<String>;
   name_not_ends_with?: Maybe<String>;
+  is_working?: Maybe<Boolean>;
+  is_working_not?: Maybe<Boolean>;
+  file_name?: Maybe<String>;
+  file_name_not?: Maybe<String>;
+  file_name_in?: Maybe<String[] | String>;
+  file_name_not_in?: Maybe<String[] | String>;
+  file_name_lt?: Maybe<String>;
+  file_name_lte?: Maybe<String>;
+  file_name_gt?: Maybe<String>;
+  file_name_gte?: Maybe<String>;
+  file_name_contains?: Maybe<String>;
+  file_name_not_contains?: Maybe<String>;
+  file_name_starts_with?: Maybe<String>;
+  file_name_not_starts_with?: Maybe<String>;
+  file_name_ends_with?: Maybe<String>;
+  file_name_not_ends_with?: Maybe<String>;
   last_checked?: Maybe<DateTimeInput>;
   last_checked_not?: Maybe<DateTimeInput>;
   last_checked_in?: Maybe<DateTimeInput[] | DateTimeInput>;
@@ -242,9 +262,9 @@ export interface EndpointWhereInput {
   last_checked_lte?: Maybe<DateTimeInput>;
   last_checked_gt?: Maybe<DateTimeInput>;
   last_checked_gte?: Maybe<DateTimeInput>;
-  errors_every?: Maybe<ErrorWhereInput>;
-  errors_some?: Maybe<ErrorWhereInput>;
-  errors_none?: Maybe<ErrorWhereInput>;
+  error_log_every?: Maybe<ErrorWhereInput>;
+  error_log_some?: Maybe<ErrorWhereInput>;
+  error_log_none?: Maybe<ErrorWhereInput>;
   AND?: Maybe<EndpointWhereInput[] | EndpointWhereInput>;
   OR?: Maybe<EndpointWhereInput[] | EndpointWhereInput>;
   NOT?: Maybe<EndpointWhereInput[] | EndpointWhereInput>;
@@ -257,8 +277,10 @@ export type ErrorWhereUniqueInput = AtLeastOne<{
 export interface EndpointCreateInput {
   id?: Maybe<ID_Input>;
   name: String;
-  last_checked: DateTimeInput;
-  errors?: Maybe<ErrorCreateManyWithoutEndpointInput>;
+  is_working?: Maybe<Boolean>;
+  file_name: String;
+  last_checked?: Maybe<DateTimeInput>;
+  error_log?: Maybe<ErrorCreateManyWithoutEndpointInput>;
 }
 
 export interface ErrorCreateManyWithoutEndpointInput {
@@ -275,8 +297,10 @@ export interface ErrorCreateWithoutEndpointInput {
 
 export interface EndpointUpdateInput {
   name?: Maybe<String>;
+  is_working?: Maybe<Boolean>;
+  file_name?: Maybe<String>;
   last_checked?: Maybe<DateTimeInput>;
-  errors?: Maybe<ErrorUpdateManyWithoutEndpointInput>;
+  error_log?: Maybe<ErrorUpdateManyWithoutEndpointInput>;
 }
 
 export interface ErrorUpdateManyWithoutEndpointInput {
@@ -369,46 +393,52 @@ export interface ErrorUpdateManyDataInput {
 
 export interface EndpointUpdateManyMutationInput {
   name?: Maybe<String>;
+  is_working?: Maybe<Boolean>;
+  file_name?: Maybe<String>;
   last_checked?: Maybe<DateTimeInput>;
 }
 
 export interface ErrorCreateInput {
   id?: Maybe<ID_Input>;
-  endpoint: EndpointCreateOneWithoutErrorsInput;
+  endpoint: EndpointCreateOneWithoutError_logInput;
   notes?: Maybe<String>;
 }
 
-export interface EndpointCreateOneWithoutErrorsInput {
-  create?: Maybe<EndpointCreateWithoutErrorsInput>;
+export interface EndpointCreateOneWithoutError_logInput {
+  create?: Maybe<EndpointCreateWithoutError_logInput>;
   connect?: Maybe<EndpointWhereUniqueInput>;
 }
 
-export interface EndpointCreateWithoutErrorsInput {
+export interface EndpointCreateWithoutError_logInput {
   id?: Maybe<ID_Input>;
   name: String;
-  last_checked: DateTimeInput;
-}
-
-export interface ErrorUpdateInput {
-  endpoint?: Maybe<EndpointUpdateOneRequiredWithoutErrorsInput>;
-  notes?: Maybe<String>;
-}
-
-export interface EndpointUpdateOneRequiredWithoutErrorsInput {
-  create?: Maybe<EndpointCreateWithoutErrorsInput>;
-  update?: Maybe<EndpointUpdateWithoutErrorsDataInput>;
-  upsert?: Maybe<EndpointUpsertWithoutErrorsInput>;
-  connect?: Maybe<EndpointWhereUniqueInput>;
-}
-
-export interface EndpointUpdateWithoutErrorsDataInput {
-  name?: Maybe<String>;
+  is_working?: Maybe<Boolean>;
+  file_name: String;
   last_checked?: Maybe<DateTimeInput>;
 }
 
-export interface EndpointUpsertWithoutErrorsInput {
-  update: EndpointUpdateWithoutErrorsDataInput;
-  create: EndpointCreateWithoutErrorsInput;
+export interface ErrorUpdateInput {
+  endpoint?: Maybe<EndpointUpdateOneRequiredWithoutError_logInput>;
+  notes?: Maybe<String>;
+}
+
+export interface EndpointUpdateOneRequiredWithoutError_logInput {
+  create?: Maybe<EndpointCreateWithoutError_logInput>;
+  update?: Maybe<EndpointUpdateWithoutError_logDataInput>;
+  upsert?: Maybe<EndpointUpsertWithoutError_logInput>;
+  connect?: Maybe<EndpointWhereUniqueInput>;
+}
+
+export interface EndpointUpdateWithoutError_logDataInput {
+  name?: Maybe<String>;
+  is_working?: Maybe<Boolean>;
+  file_name?: Maybe<String>;
+  last_checked?: Maybe<DateTimeInput>;
+}
+
+export interface EndpointUpsertWithoutError_logInput {
+  update: EndpointUpdateWithoutError_logDataInput;
+  create: EndpointCreateWithoutError_logInput;
 }
 
 export interface ErrorUpdateManyMutationInput {
@@ -448,14 +478,18 @@ export interface NodeNode {
 export interface Endpoint {
   id: ID_Output;
   name: String;
-  last_checked: DateTimeOutput;
+  is_working?: Boolean;
+  file_name: String;
+  last_checked?: DateTimeOutput;
 }
 
 export interface EndpointPromise extends Promise<Endpoint>, Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  is_working: () => Promise<Boolean>;
+  file_name: () => Promise<String>;
   last_checked: () => Promise<DateTimeOutput>;
-  errors: <T = FragmentableArray<Error>>(args?: {
+  error_log: <T = FragmentableArray<Error>>(args?: {
     where?: ErrorWhereInput;
     orderBy?: ErrorOrderByInput;
     skip?: Int;
@@ -471,8 +505,10 @@ export interface EndpointSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
+  is_working: () => Promise<AsyncIterator<Boolean>>;
+  file_name: () => Promise<AsyncIterator<String>>;
   last_checked: () => Promise<AsyncIterator<DateTimeOutput>>;
-  errors: <T = Promise<AsyncIterator<ErrorSubscription>>>(args?: {
+  error_log: <T = Promise<AsyncIterator<ErrorSubscription>>>(args?: {
     where?: ErrorWhereInput;
     orderBy?: ErrorOrderByInput;
     skip?: Int;
@@ -488,8 +524,10 @@ export interface EndpointNullablePromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  is_working: () => Promise<Boolean>;
+  file_name: () => Promise<String>;
   last_checked: () => Promise<DateTimeOutput>;
-  errors: <T = FragmentableArray<Error>>(args?: {
+  error_log: <T = FragmentableArray<Error>>(args?: {
     where?: ErrorWhereInput;
     orderBy?: ErrorOrderByInput;
     skip?: Int;
@@ -708,7 +746,9 @@ export interface EndpointSubscriptionPayloadSubscription
 export interface EndpointPreviousValues {
   id: ID_Output;
   name: String;
-  last_checked: DateTimeOutput;
+  is_working?: Boolean;
+  file_name: String;
+  last_checked?: DateTimeOutput;
 }
 
 export interface EndpointPreviousValuesPromise
@@ -716,6 +756,8 @@ export interface EndpointPreviousValuesPromise
     Fragmentable {
   id: () => Promise<ID_Output>;
   name: () => Promise<String>;
+  is_working: () => Promise<Boolean>;
+  file_name: () => Promise<String>;
   last_checked: () => Promise<DateTimeOutput>;
 }
 
@@ -724,6 +766,8 @@ export interface EndpointPreviousValuesSubscription
     Fragmentable {
   id: () => Promise<AsyncIterator<ID_Output>>;
   name: () => Promise<AsyncIterator<String>>;
+  is_working: () => Promise<AsyncIterator<Boolean>>;
+  file_name: () => Promise<AsyncIterator<String>>;
   last_checked: () => Promise<AsyncIterator<DateTimeOutput>>;
 }
 
@@ -786,6 +830,11 @@ The `String` scalar type represents textual data, represented as UTF-8 character
 export type String = string;
 
 /*
+The `Boolean` scalar type represents `true` or `false`.
+*/
+export type Boolean = boolean;
+
+/*
 DateTime scalar input type, allowing Date
 */
 export type DateTimeInput = Date | string;
@@ -799,11 +848,6 @@ export type DateTimeOutput = string;
 The `Int` scalar type represents non-fractional signed whole numeric values. Int can represent values between -(2^31) and 2^31 - 1.
 */
 export type Int = number;
-
-/*
-The `Boolean` scalar type represents `true` or `false`.
-*/
-export type Boolean = boolean;
 
 export type Long = string;
 

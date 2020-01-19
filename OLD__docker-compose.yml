@@ -1,5 +1,23 @@
 version: '3'
 services:
+    api:
+        build:
+            context: ./nodejs-healthcheck-backend
+        container_name: api_node_service
+        env_file: .env
+        ports:
+            - "4090:4090"
+        depends_on:
+            - "prisma"
+    cron:
+        build:
+            context: ./nodejs-healthcheck-cron-scripts
+        container_name: api_cron_service
+        env_file: .env
+        ports:
+            - "4130:4130"
+        depends_on:
+            - "prisma"            
     prisma:
         image: prismagraphql/prisma:1.34
         ports:

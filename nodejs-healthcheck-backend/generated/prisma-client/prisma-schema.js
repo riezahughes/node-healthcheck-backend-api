@@ -20,8 +20,10 @@ scalar DateTime
 type Endpoint {
   id: ID!
   name: String!
-  last_checked: DateTime!
-  errors(where: ErrorWhereInput, orderBy: ErrorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Error!]
+  is_working: Boolean
+  file_name: String!
+  last_checked: DateTime
+  error_log(where: ErrorWhereInput, orderBy: ErrorOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Error!]
 }
 
 type EndpointConnection {
@@ -33,19 +35,23 @@ type EndpointConnection {
 input EndpointCreateInput {
   id: ID
   name: String!
-  last_checked: DateTime!
-  errors: ErrorCreateManyWithoutEndpointInput
+  is_working: Boolean
+  file_name: String!
+  last_checked: DateTime
+  error_log: ErrorCreateManyWithoutEndpointInput
 }
 
-input EndpointCreateOneWithoutErrorsInput {
-  create: EndpointCreateWithoutErrorsInput
+input EndpointCreateOneWithoutError_logInput {
+  create: EndpointCreateWithoutError_logInput
   connect: EndpointWhereUniqueInput
 }
 
-input EndpointCreateWithoutErrorsInput {
+input EndpointCreateWithoutError_logInput {
   id: ID
   name: String!
-  last_checked: DateTime!
+  is_working: Boolean
+  file_name: String!
+  last_checked: DateTime
 }
 
 type EndpointEdge {
@@ -58,6 +64,10 @@ enum EndpointOrderByInput {
   id_DESC
   name_ASC
   name_DESC
+  is_working_ASC
+  is_working_DESC
+  file_name_ASC
+  file_name_DESC
   last_checked_ASC
   last_checked_DESC
 }
@@ -65,7 +75,9 @@ enum EndpointOrderByInput {
 type EndpointPreviousValues {
   id: ID!
   name: String!
-  last_checked: DateTime!
+  is_working: Boolean
+  file_name: String!
+  last_checked: DateTime
 }
 
 type EndpointSubscriptionPayload {
@@ -88,30 +100,36 @@ input EndpointSubscriptionWhereInput {
 
 input EndpointUpdateInput {
   name: String
+  is_working: Boolean
+  file_name: String
   last_checked: DateTime
-  errors: ErrorUpdateManyWithoutEndpointInput
+  error_log: ErrorUpdateManyWithoutEndpointInput
 }
 
 input EndpointUpdateManyMutationInput {
   name: String
+  is_working: Boolean
+  file_name: String
   last_checked: DateTime
 }
 
-input EndpointUpdateOneRequiredWithoutErrorsInput {
-  create: EndpointCreateWithoutErrorsInput
-  update: EndpointUpdateWithoutErrorsDataInput
-  upsert: EndpointUpsertWithoutErrorsInput
+input EndpointUpdateOneRequiredWithoutError_logInput {
+  create: EndpointCreateWithoutError_logInput
+  update: EndpointUpdateWithoutError_logDataInput
+  upsert: EndpointUpsertWithoutError_logInput
   connect: EndpointWhereUniqueInput
 }
 
-input EndpointUpdateWithoutErrorsDataInput {
+input EndpointUpdateWithoutError_logDataInput {
   name: String
+  is_working: Boolean
+  file_name: String
   last_checked: DateTime
 }
 
-input EndpointUpsertWithoutErrorsInput {
-  update: EndpointUpdateWithoutErrorsDataInput!
-  create: EndpointCreateWithoutErrorsInput!
+input EndpointUpsertWithoutError_logInput {
+  update: EndpointUpdateWithoutError_logDataInput!
+  create: EndpointCreateWithoutError_logInput!
 }
 
 input EndpointWhereInput {
@@ -143,6 +161,22 @@ input EndpointWhereInput {
   name_not_starts_with: String
   name_ends_with: String
   name_not_ends_with: String
+  is_working: Boolean
+  is_working_not: Boolean
+  file_name: String
+  file_name_not: String
+  file_name_in: [String!]
+  file_name_not_in: [String!]
+  file_name_lt: String
+  file_name_lte: String
+  file_name_gt: String
+  file_name_gte: String
+  file_name_contains: String
+  file_name_not_contains: String
+  file_name_starts_with: String
+  file_name_not_starts_with: String
+  file_name_ends_with: String
+  file_name_not_ends_with: String
   last_checked: DateTime
   last_checked_not: DateTime
   last_checked_in: [DateTime!]
@@ -151,9 +185,9 @@ input EndpointWhereInput {
   last_checked_lte: DateTime
   last_checked_gt: DateTime
   last_checked_gte: DateTime
-  errors_every: ErrorWhereInput
-  errors_some: ErrorWhereInput
-  errors_none: ErrorWhereInput
+  error_log_every: ErrorWhereInput
+  error_log_some: ErrorWhereInput
+  error_log_none: ErrorWhereInput
   AND: [EndpointWhereInput!]
   OR: [EndpointWhereInput!]
   NOT: [EndpointWhereInput!]
@@ -178,7 +212,7 @@ type ErrorConnection {
 
 input ErrorCreateInput {
   id: ID
-  endpoint: EndpointCreateOneWithoutErrorsInput!
+  endpoint: EndpointCreateOneWithoutError_logInput!
   notes: String
 }
 
@@ -273,7 +307,7 @@ input ErrorSubscriptionWhereInput {
 }
 
 input ErrorUpdateInput {
-  endpoint: EndpointUpdateOneRequiredWithoutErrorsInput
+  endpoint: EndpointUpdateOneRequiredWithoutError_logInput
   notes: String
 }
 
