@@ -2,9 +2,9 @@ type Endpoint {
   id: ID! @id
   name: String!
   is_working: Boolean
-  file_name: String!
+  file_name: String!  
   last_checked: DateTime
-  error_log: [Error!]
+  errors: [Error!]!
 }
 
 type Error {

@@ -67,13 +67,19 @@ router.post('/', async function(req, res){
 
 });
 
-router.get('/:id/error', async function(req, res){
+router.get('/:id/errors', async function(req, res){
   const { id } = req.params;
-  const getError = await prisma.endpoint({
-    where: { id }
-  }).error();
 
-  res.json(getError);
+  // const errorsOnEndpoint = await prisma
+  // .endpoint( { id } )
+  // .errors();
+
+  const errorsOnEndpoint = await prisma
+  .endpoint( { id: "ck5lb3kgq000j0709oktik48o" } )
+  .errors();
+
+  res.json(errorsOnEndpoint);
+
 });
 
 router.post('/:id/error', async function(req, res){
